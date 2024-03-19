@@ -1,7 +1,8 @@
 import React from "react";
+import SignIn from "@/components/auth/SignIn";
 
 const page = () => {
-  return <div>chat with me</div>;
+  return <SignIn />;
 };
 
 export default page;

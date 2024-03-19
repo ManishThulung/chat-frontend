@@ -1,4 +1,4 @@
-import Sidebar from "@/components/sidebar/Sidebar";
+import Header from "@/components/header/Header";
 
 export default function layout({
   children,
@@ -6,11 +6,9 @@ export default function layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex">
-      <div className="w-[256px] h-[85vh]">
-        <Sidebar />
-      </div>
-      <main className="w-full">{children}</main>
+    <div>
+      <Header />
+      {children}
     </div>
   );
 }
