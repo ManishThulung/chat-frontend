@@ -1,6 +1,9 @@
 "use client";
+import { api } from "@/config/axios";
+import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface UserType {
@@ -10,10 +13,31 @@ interface UserType {
 }
 
 const SignIn = () => {
+  const router = useRouter();
+
   const [user, setUser] = useState<UserType>({
     name: "",
     email: "",
     password: "",
+  });
+
+  const mutation = useMutation({
+    mutationFn: () => {
+      return api.post("/auth/register", user);
+    },
+    onSuccess: (data) => {
+      console.log(data, "onSuccess");
+      localStorage.setItem("user", data?.data?.data);
+      localStorage.setItem(
+        "accessToken",
+        JSON.stringify(data?.data?.accessToken)
+      );
+      router.push("/chat");
+    },
+    onError: (error) => {
+      prompt("error occured");
+      console.log(error, "onErrpr");
+    },
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +51,7 @@ const SignIn = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    
+    mutation.mutate();
   };
   return (
     <section className="bg-gray-50 dark:bg-gray-900">
