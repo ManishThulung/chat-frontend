@@ -1,7 +1,35 @@
+"use client";
 import React from "react";
 import ChatItem from "../chat/ChatItem";
+import { api } from "@/config/axios";
+import Loader from "../loader/Loader";
+import { useQuery } from "@tanstack/react-query";
+import { User } from "@/types/user.type";
 
-const Sidebar = () => {
+const Sidebar = ({ id }: { id: string }) => {
+  const getChatsByUserId = () => {
+    return api.get(`/chats/user-chats/${id}`).then((data) => data.data.data);
+  };
+  const { isLoading, data, error } = useQuery({
+    queryKey: ["chats", id],
+    queryFn: getChatsByUserId,
+  });
+
+  if (error) {
+    return <div>error happened</div>;
+  }
+
+  const receiver =
+    data &&
+    data.map((item: any, i: number) => {
+      const user = item.participants.filter((user: User) => user._id !== id);
+      const chatId = item?._id;
+      const obj = { chatId: chatId, participants: user };
+      let data = [];
+      data.push(obj);
+      return data;
+    });
+
   return (
     <aside
       id="default-sidebar"
@@ -13,10 +41,13 @@ const Sidebar = () => {
           Friends
         </div>
         <ul className="space-y-2 font-medium">
-          <ChatItem />
-          <ChatItem />
-          <ChatItem />
-          <ChatItem />
+          {isLoading && <Loader />}
+          {!isLoading &&
+            receiver?.flat()?.map((data: any, i: number) => (
+              <div key={i}>
+                <ChatItem user={data.participants[0]} senderId={id} chatId={data.chatId} />
+              </div>
+            ))}
         </ul>
       </div>
     </aside>
