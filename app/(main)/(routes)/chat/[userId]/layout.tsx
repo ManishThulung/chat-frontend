@@ -2,16 +2,14 @@ import Sidebar from "@/components/sidebar/Sidebar";
 
 interface LayoutProps {
   children: React.ReactNode;
-  params: { id: string };
+  params: { userId: string };
 }
 
-export default function layout(
-  {children, params}: LayoutProps
-) {
+export default function layout({ children, params }: LayoutProps) {
   return (
     <div className="flex">
       <div className="w-[256px] h-[85vh]">
-        <Sidebar id={params.id} />
+        <Sidebar id={params.userId} />
       </div>
       <main className="w-full">{children}</main>
     </div>
