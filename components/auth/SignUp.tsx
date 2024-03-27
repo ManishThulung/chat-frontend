@@ -24,12 +24,13 @@ const SignUp = () => {
       return api.post("/auth/login", user);
     },
     onSuccess: (data) => {
-      localStorage.setItem("user", data?.data?.data);
+      localStorage.setItem("user", JSON.stringify(data?.data?.data));
       localStorage.setItem(
         "accessToken",
         JSON.stringify(data?.data?.accessToken)
       );
-      router.push("/chat");
+      console.log(data, "data");
+      router.push(`/chat/${data?.data?.data?._id}`);
     },
     onError: (error) => {
       console.log(error, "onErrpr");
@@ -71,7 +72,6 @@ const SignUp = () => {
               Sign in to your account
             </h1>
             <form className="space-y-4 md:space-y-6" onSubmit={handleSubmit}>
-              
               <div>
                 <label
                   htmlFor="email"

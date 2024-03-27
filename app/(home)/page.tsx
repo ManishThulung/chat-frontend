@@ -5,12 +5,13 @@ import { useEffect } from "react";
 const SetupPage = () => {
   useEffect(() => {
     const accessToken = localStorage.getItem("accessToken");
-    const user = JSON.parse(localStorage.getItem("user")??"")
+    const userDetails = localStorage.getItem("user");
+    const user = userDetails && JSON?.parse(userDetails);
 
     if (accessToken) {
       redirect(`/chat/${user.id}`);
     } else {
-      redirect("/sign-in");
+      redirect("/sign-up");
     }
   }, []);
 

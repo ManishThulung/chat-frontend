@@ -3,13 +3,13 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
-interface ChatItemProps {
+interface ChatNoticeProps {
   user: User;
-  senderId: string,
-  chatId: string
+  senderId: string;
+  chatId: string;
 }
 
-const ChatItem = ({ user, senderId, chatId }: ChatItemProps) => {
+const ChatNotice = ({ user, senderId, chatId }: ChatNoticeProps) => {
   const { _id, name, email } = user;
   return (
     <Link
@@ -28,4 +28,4 @@ const ChatItem = ({ user, senderId, chatId }: ChatItemProps) => {
   );
 };
 
-export default ChatItem;
+export default ChatNotice;

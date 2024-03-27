@@ -26,13 +26,12 @@ const SignIn = () => {
       return api.post("/auth/register", user);
     },
     onSuccess: (data) => {
-      console.log(data, "onSuccess");
-      localStorage.setItem("user", data?.data?.data);
+      localStorage.setItem("user", JSON.stringify(data?.data?.data));
       localStorage.setItem(
         "accessToken",
         JSON.stringify(data?.data?.accessToken)
       );
-      router.push("/chat");
+      router.push(`/chat/${data?.data?.data?._id}`);
     },
     onError: (error) => {
       prompt("error occured");

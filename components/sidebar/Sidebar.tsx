@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import ChatItem from "../chat/ChatItem";
+import ChatNotice from "../chat/ChatNotice";
 import { api } from "@/config/axios";
 import Loader from "../loader/Loader";
 import { useQuery } from "@tanstack/react-query";
@@ -45,7 +45,11 @@ const Sidebar = ({ id }: { id: string }) => {
           {!isLoading &&
             receiver?.flat()?.map((data: any, i: number) => (
               <div key={i}>
-                <ChatItem user={data.participants[0]} senderId={id} chatId={data.chatId} />
+                <ChatNotice
+                  user={data.participants[0]}
+                  senderId={id}
+                  chatId={data.chatId}
+                />
               </div>
             ))}
         </ul>
