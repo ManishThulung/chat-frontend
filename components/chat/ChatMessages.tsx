@@ -3,6 +3,8 @@
 import { api } from "@/config/axios";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../loader/Loader";
+import { useEffect } from "react";
+import { useSocket } from "../providers/socket-provider";
 
 const ChatMessages = ({
   chatId,
@@ -11,6 +13,14 @@ const ChatMessages = ({
   chatId: string;
   userId: string;
 }) => {
+  const { socket } = useSocket();
+
+  useEffect(() => {
+    socket?.on("msg", (message: any) => {
+      console.log(message, "message");
+    });
+  }, [socket]);
+
   const getMessages = async () => {
     const res = await api.get(`/chats/messages?chatId=${chatId}`);
     return res?.data?.data;

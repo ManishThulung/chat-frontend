@@ -6,7 +6,7 @@ const page = ({ params }: { params: { chatId: string; userId: string } }) => {
   return (
     <div className="p-5 flex flex-col justify-between h-full">
       <ChatMessages chatId={params?.chatId} userId={params?.userId} />
-      <InputItem />
+      <InputItem chatId={params?.chatId} userId={params?.userId}/>
     </div>
   );
 };
