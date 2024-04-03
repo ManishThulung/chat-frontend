@@ -3,7 +3,10 @@ let token;
 
 if (typeof window !== "undefined") {
   const accessToken = localStorage?.getItem("accessToken");
-  token = accessToken && accessToken.slice(1, -1);
+  if (accessToken) {
+    token = accessToken.slice(1, -1);
+    console.log(token, "token");
+  }
 }
 
 export const api = axios.create({

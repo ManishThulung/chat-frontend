@@ -8,8 +8,8 @@ const SetupPage = () => {
     const userDetails = localStorage.getItem("user");
     const user = userDetails && JSON?.parse(userDetails);
 
-    if (accessToken) {
-      redirect(`/chat/${user.id}`);
+    if (accessToken && user) {
+      redirect(`/chat/${user._id}`);
     } else {
       redirect("/sign-up");
     }

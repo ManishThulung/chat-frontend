@@ -22,13 +22,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketInstance = new (ClientIO as any)(
-      process.env.NEXT_PUBLIC_SITE_URL!,
-      {
-        path: "http://localhost:9000",
-        addTrailingSlash: false,
-      }
-    );
+    const socketInstance = io("http://localhost:9000")
     // const socketInstance = io("http://localhost:9000")
 
     console.log(socketInstance, "socket instance");
