@@ -5,7 +5,7 @@ if (typeof window !== "undefined") {
   const accessToken = localStorage?.getItem("accessToken");
   if (accessToken) {
     token = accessToken.slice(1, -1);
-    console.log(token, "token");
+    console.log(token, "token"); 
   }
 }
 

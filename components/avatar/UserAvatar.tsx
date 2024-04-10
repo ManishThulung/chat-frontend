@@ -10,8 +10,8 @@ interface UserAvatarProps {
 function extractInitials(name: string) {
   let initials = "";
   let words = name?.split(" ");
-  for (let i = 0; i < words.length; i++) {
-    initials += words[i].charAt(0);
+  for (let i = 0; i < words?.length; i++) {
+    initials += words[i]?.charAt(0);
   }
   return initials;
 }

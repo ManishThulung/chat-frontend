@@ -1,9 +1,9 @@
 "use client";
 
 import { api } from "@/config/axios";
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loader from "../loader/Loader";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useSocket } from "../providers/socket-provider";
 import { UserAvatar } from "../avatar/UserAvatar";
 
@@ -15,32 +15,67 @@ const ChatMessages = ({
   userId: string;
 }) => {
   const { socket, isConnected } = useSocket();
-  console.log(isConnected, "isConnected");
-  let msg: string;
+  const [messages, setMessages] = useState<any[]>([])
+  // const queryClient = useQueryClient();
+  const queryKey='messages'
+
   useEffect(() => {
-    socket?.on("messages", (message: any) => {
-      msg = message?.content;
+    socket?.on("sendMessage", (message: any) => {
+      console.log(message, "msg")
+      setMessages(preData=> [...preData, message]);
+
+      // queryClient.setQueryData([queryKey], (oldData: any) => {
+      //   console.log(oldData, "oldData")
+      //   if (!oldData || !oldData.pages || oldData.pages.length === 0) {
+      //     return {
+      //       pages: [
+      //         {
+      //           items: [message],
+      //         },
+      //       ],
+      //     };
+      //   }
+
+      //   const newData = [...oldData.pages];
+      //   console.log(newData, "newData");
+
+      //   newData[0] = {
+      //     ...newData[0],
+      //     items: [message, ...newData[0].items],
+      //   };
+      //   return {
+      //     ...oldData,
+      //     pages: newData,
+      //   };
+      // });
     });
+
+    return () => {
+      socket?.off("sendMessage");
+      // socket.off(updateKey);
+    };
   }, [socket]);
 
   const getMessages = async () => {
     const res = await api.get(`/chats/messages?chatId=${chatId}`);
-    return res?.data?.data;
+    res && setMessages(res?.data?.data);
+    return res?.data?.data
   };
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["messages", chatId],
+  const { isLoading, error } = useQuery({
+    queryKey: [queryKey, chatId],
     queryFn: getMessages,
   });
 
   if (error) {
     return <div>Error Ocurred</div>;
   }
+  console.log(messages, "Messages")
 
   return (
     <div>
-      {!isLoading && data ? (
-        data?.map((message: any) => (
+      {!isLoading && messages ? (
+        messages?.map((message: any) => (
           <div
             key={message?._id}
             className={`flex gap-3 font-medium mb-3 ${
@@ -49,7 +84,7 @@ const ChatMessages = ({
                 : " justify-end"
             }`}
           >
-            <div>{msg}</div>
+            <div>{message?.content}</div>
             <UserAvatar name={message?.sender?.name} />
           </div>
         ))
