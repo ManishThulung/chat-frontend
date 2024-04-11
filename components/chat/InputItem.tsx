@@ -4,12 +4,13 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Plus } from "lucide-react";
-// import { useRouter } from "next/navigation";
 
 import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { api } from "@/config/axios";
 // import { EmojiPicker } from "../emoji-picker";
+import EmojiPicker from 'emoji-picker-react';
+import { useRef, useState } from "react";
 
 interface ChatInputProps {
   chatId: string;
@@ -21,7 +22,7 @@ const formSchema = z.object({
 });
 
 const ChatInput = ({ chatId, userId }: ChatInputProps) => {
-  // const router = useRouter();
+  const [isEmojiOpen, setIsEmojiOpen] = useState<boolean>(false)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -55,7 +56,7 @@ const ChatInput = ({ chatId, userId }: ChatInputProps) => {
                 <div className="relative p-4 pb-6">
                   <button
                     type="button"
-                    // onClick={() => onOpen("messageFile", { apiUrl, query })}
+                    onClick={() => setIsEmojiOpen(true)}
                     className="absolute top-7 left-8 h-[24px] w-[24px] bg-zinc-500 dark:bg-zinc-400 hover:bg-zinc-600 dark:hover:bg-zinc-300 transition rounded-full p-1 flex items-center justify-center"
                   >
                     <Plus className="text-white dark:text-[#313338]" />
@@ -66,13 +67,7 @@ const ChatInput = ({ chatId, userId }: ChatInputProps) => {
                     placeholder="Type your message"
                     {...field}
                   />
-                  {/* <div className="absolute top-7 right-8">
-                    <EmojiPicker
-                      onChange={(emoji: string) =>
-                        field.onChange(`${field.value} ${emoji}`)
-                      }
-                    />
-                  </div> */}
+                  <EmojiPicker open={isEmojiOpen} />
                 </div>
               </FormControl>
             </FormItem>

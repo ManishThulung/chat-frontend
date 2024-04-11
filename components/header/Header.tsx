@@ -4,7 +4,7 @@ import React from "react";
 
 const Header = () => {
   return (
-    <div className="container mx-auto shadow-lg rounded-lg ">
+    <div className="mx-auto shadow-lg rounded-lg">
       <div className="px-[20px] md:px-[32px] py-5 flex justify-between items-center bg-white border-b-2">
         <div className="font-semibold text-lg sm:text-2xl">
           <Link

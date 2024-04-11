@@ -6,9 +6,13 @@ export default function layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div>
-      <Header />
-      {children}
+    <div className="h-screen">
+      <div className="h-[15%]">
+        <Header />
+      </div>
+      <div className="h-[85%]">
+        {children}
+      </div>
     </div>
   );
 }

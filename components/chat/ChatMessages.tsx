@@ -3,7 +3,7 @@
 import { api } from "@/config/axios";
 import { QueryClient, useQuery, useQueryClient } from "@tanstack/react-query";
 import Loader from "../loader/Loader";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../providers/socket-provider";
 import { UserAvatar } from "../avatar/UserAvatar";
 
@@ -14,42 +14,15 @@ const ChatMessages = ({
   chatId: string;
   userId: string;
 }) => {
-  const { socket, isConnected } = useSocket();
+  const { socket } = useSocket();
   const [messages, setMessages] = useState<any[]>([])
-  // const queryClient = useQueryClient();
-  const queryKey='messages'
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     socket?.on("sendMessage", (message: any) => {
-      console.log(message, "msg")
       setMessages(preData=> [...preData, message]);
-
-      // queryClient.setQueryData([queryKey], (oldData: any) => {
-      //   console.log(oldData, "oldData")
-      //   if (!oldData || !oldData.pages || oldData.pages.length === 0) {
-      //     return {
-      //       pages: [
-      //         {
-      //           items: [message],
-      //         },
-      //       ],
-      //     };
-      //   }
-
-      //   const newData = [...oldData.pages];
-      //   console.log(newData, "newData");
-
-      //   newData[0] = {
-      //     ...newData[0],
-      //     items: [message, ...newData[0].items],
-      //   };
-      //   return {
-      //     ...oldData,
-      //     pages: newData,
-      //   };
-      // });
     });
-
+  
     return () => {
       socket?.off("sendMessage");
       // socket.off(updateKey);
@@ -63,17 +36,25 @@ const ChatMessages = ({
   };
 
   const { isLoading, error } = useQuery({
-    queryKey: [queryKey, chatId],
+    queryKey: [chatId],
     queryFn: getMessages,
   });
+
+  useEffect(() => {
+    if (messages.length) {
+      ref.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+      });
+    }
+  }, [messages.length]);
 
   if (error) {
     return <div>Error Ocurred</div>;
   }
-  console.log(messages, "Messages")
 
   return (
-    <div>
+    <div className="overflow-y-auto p-5">
       {!isLoading && messages ? (
         messages?.map((message: any) => (
           <div
@@ -91,6 +72,7 @@ const ChatMessages = ({
       ) : (
         <Loader />
       )}
+      <div ref={ref}/>
     </div>
   ); 
 };

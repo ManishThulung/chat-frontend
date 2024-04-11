@@ -7,11 +7,11 @@ interface LayoutProps {
 
 export default function layout({ children, params }: LayoutProps) {
   return (
-    <div className="flex">
-      <div className="w-[256px] h-[85vh]">
+    <div className="flex h-full">
+      <div className="w-[256px] h-full">
         <Sidebar id={params.userId} />
       </div>
-      <main className="w-full">{children}</main>
+      <main className="w-full h-full">{children}</main>
     </div>
   );
 }
