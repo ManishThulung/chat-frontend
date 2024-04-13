@@ -25,3 +25,13 @@ export const UserAvatar = ({ src, className, name }: UserAvatarProps) => {
     </Avatar>
   );
 };
+
+export const ProfileAvatar = ({ src, className, name }: UserAvatarProps) => {
+  const fallbackImage = extractInitials(name);
+  return (
+    <Avatar className={cn("h-6 w-6 md:h-9 md:w-9", className)}>
+      <AvatarImage src={src} />
+      <AvatarFallback>{fallbackImage}</AvatarFallback>
+    </Avatar>
+  );
+};

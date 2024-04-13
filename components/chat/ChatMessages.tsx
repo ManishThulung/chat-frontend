@@ -6,6 +6,7 @@ import Loader from "../loader/Loader";
 import { useEffect, useRef, useState } from "react";
 import { useSocket } from "../providers/socket-provider";
 import { UserAvatar } from "../avatar/UserAvatar";
+import { ChatWelcome } from "./ChatWelcome";
 
 const ChatMessages = ({
   chatId,
@@ -55,6 +56,9 @@ const ChatMessages = ({
 
   return (
     <div className="overflow-y-auto p-5">
+
+      <ChatWelcome type="friend"/>
+
       {!isLoading && messages ? (
         messages?.map((message: any) => (
           <div

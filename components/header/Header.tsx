@@ -1,6 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { UserSearch } from "./UserSearch";
+import { ProfileAvatar } from "../avatar/UserAvatar";
+
 
 const Header = () => {
   return (
@@ -9,7 +12,7 @@ const Header = () => {
         <div className="font-semibold text-lg sm:text-2xl">
           <Link
             href="/"
-            className="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white"
+            className="flex items-center text-2xl font-semibold text-gray-900 dark:text-white"
           >
             <Image
               src={"/logo.svg"}
@@ -22,17 +25,10 @@ const Header = () => {
           </Link>
         </div>
         <div className="w-1/2">
-          <input
-            type="text"
-            name=""
-            id=""
-            placeholder="search friend"
-            className="rounded-2xl bg-gray-100 py-3 px-5 w-full"
-          />
+          <UserSearch />
         </div>
-        <div className="h-12 w-12 p-2 bg-yellow-500 rounded-full text-white font-semibold flex items-center justify-center">
-          RA
-        </div>
+        <ProfileAvatar name={"message name"} />
+        
       </div>
     </div>
   );

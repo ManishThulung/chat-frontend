@@ -7,10 +7,10 @@ export default function layout({
 }>) {
   return (
     <div className="h-screen">
-      <div className="h-[15%]">
+      <div className="h-[11%]">
         <Header />
       </div>
-      <div className="h-[85%]">
+      <div className="h-[89%]">
         {children}
       </div>
     </div>
