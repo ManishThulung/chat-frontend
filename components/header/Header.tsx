@@ -2,8 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { UserSearch } from "./UserSearch";
-import { ProfileAvatar } from "../avatar/UserAvatar";
-
+import LogOut from "./logOut";
 
 const Header = () => {
   return (
@@ -27,8 +26,7 @@ const Header = () => {
         <div className="w-1/2">
           <UserSearch />
         </div>
-        <ProfileAvatar name={"message name"} />
-        
+        <LogOut />
       </div>
     </div>
   );
