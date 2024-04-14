@@ -11,7 +11,7 @@ const Sidebar = ({ id }: { id: string }) => {
     return api.get(`/chats/user-chats/${id}`).then((data) => data.data.data);
   };
   const { isLoading, data, error } = useQuery({
-    queryKey: ["chats", id],
+    queryKey: ["all-friends"],
     queryFn: getChatsByUserId,
   });
 

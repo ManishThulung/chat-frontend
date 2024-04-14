@@ -2,7 +2,7 @@ import { Hash } from "lucide-react";
 
 interface ChatWelcomeProps {
   // name: string;
-  type: "group" | "friend";
+  type: "group" | "one-to-one";
 }
 
 export const ChatWelcome = ({ type }: ChatWelcomeProps) => {

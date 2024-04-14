@@ -22,7 +22,7 @@ const LogOut = () => {
   //   const userDetails = localStorage.getItem("user");
   //   user = userDetails && JSON?.parse(userDetails);
   // }, []);
-  const userDetails = localStorage.getItem("user");
+  const userDetails = localStorage?.getItem("user");
   const user = userDetails && JSON?.parse(userDetails);
   return (
     <Dialog>

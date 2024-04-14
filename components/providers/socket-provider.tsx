@@ -22,10 +22,8 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketInstance = io("http://localhost:9000")
+    const socketInstance = io("http://localhost:9000");
     // const socketInstance = io("http://localhost:9000")
-
-    console.log(socketInstance, "socket instance");
 
     socketInstance.on("connect", () => {
       console.log("connected");

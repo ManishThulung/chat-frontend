@@ -10,10 +10,13 @@ interface ChatNoticeProps {
 }
 
 const ChatNotice = ({ user, senderId, chatId }: ChatNoticeProps) => {
-  const { _id, name, email } = user;
+  const { _id: receiverId, name, email } = user;
   return (
     <Link
-      href={`/chat/${senderId}/${chatId}`}
+      href={{
+        pathname: `/chat/${senderId}/${receiverId}`,
+        query: { chatId },
+      }}
       className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
     >
       <Image

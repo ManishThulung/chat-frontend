@@ -2,7 +2,7 @@
 
 import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 
 import {
   CommandDialog,
@@ -14,19 +14,20 @@ import {
 } from "@/components/ui/command";
 import { api } from "@/config/axios";
 import { useQuery } from "@tanstack/react-query";
+import { useUser } from "../providers/context-provider";
 
 export const UserSearch = () => {
+  const { user } = useUser();
   const [open, setOpen] = useState(false);
   const router = useRouter();
-  const params = useParams();
 
   const getUsers = async () => {
     const res = await api.get(`/users`);
-    return res?.data?.data
+    return res?.data?.data;
   };
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['users'],
+  const { data, error } = useQuery({
+    queryKey: ["users"],
     queryFn: getUsers,
   });
 
@@ -42,10 +43,14 @@ export const UserSearch = () => {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
-  const onClick = ( id: string ) => {
+  const onClick = (id: string) => {
     setOpen(false);
-    return router.push(`/chat/${id}`);
+    return router.push(`/chat/${user?._id}/${id}`);
   };
+
+  if (error) {
+    return <div>Failed to fetch users</div>;
+  }
 
   return (
     <div className="bg-gray-200 rounded-md">
@@ -65,17 +70,21 @@ export const UserSearch = () => {
         <CommandDialog open={open} onOpenChange={setOpen}>
           <CommandInput placeholder="Search users" />
           <CommandList>
-            {data && data?.map(({ _id, name }: {_id: string, name:string}) => {
-              return (
-                <div
-                  className="opacity-100 cursor-pointer py-2 px-3 hover:bg-gray-100 text-gray-900"
-                  key={_id}
-                  onClick={() => onClick(_id)}
-                >
-                  <span >{name}</span>
-                </div>
-              );
-            })}
+            <CommandEmpty>No Results found</CommandEmpty>
+            <CommandGroup>
+              {data &&
+                data?.map(({ _id, name }: { _id: string; name: string }) => {
+                  return (
+                    <CommandItem
+                      className="z-50"
+                      key={_id}
+                      onSelect={() => onClick(_id)}
+                    >
+                      {name}
+                    </CommandItem>
+                  );
+                })}
+            </CommandGroup>
           </CommandList>
         </CommandDialog>
       </div>

@@ -9,20 +9,20 @@ import { Form, FormControl, FormField, FormItem } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { api } from "@/config/axios";
 // import { EmojiPicker } from "../emoji-picker";
-import EmojiPicker from 'emoji-picker-react';
+import EmojiPicker from "emoji-picker-react";
 import { useRef, useState } from "react";
 
 interface ChatInputProps {
-  chatId: string;
-  userId: string;
+  chatId: string | null;
+  receiverId: string;
 }
 
 const formSchema = z.object({
   content: z.string().min(1),
 });
 
-const ChatInput = ({ chatId, userId }: ChatInputProps) => {
-  const [isEmojiOpen, setIsEmojiOpen] = useState<boolean>(false)
+const ChatInput = ({ chatId, receiverId }: ChatInputProps) => {
+  const [isEmojiOpen, setIsEmojiOpen] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -33,10 +33,15 @@ const ChatInput = ({ chatId, userId }: ChatInputProps) => {
 
   const isLoading = form.formState.isSubmitting;
 
+  let chat: any;
+
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      const data = { ...values, chatId };
-      await api.post(`/chats/send-message?userId=${userId}`, data);
+      const data = { ...values, chatId: chatId ? chatId : chat?._id ?? null };
+      chat = await api.post(
+        `/chats/send-message?receiverId=${receiverId}`,
+        data
+      );
       form.reset();
       // router.refresh();
     } catch (error) {

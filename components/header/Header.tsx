@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import { UserSearch } from "./UserSearch";
-import LogOut from "./logOut";
+import LogOut from "./LogOut";
 
 const Header = () => {
   return (

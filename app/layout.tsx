@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import ReactQueryProvider from "@/components/providers/react-query-provider";
 import { SocketProvider } from "@/components/providers/socket-provider";
+import { ContextProvider } from "@/components/providers/context-provider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,7 +21,9 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ReactQueryProvider>
-          <SocketProvider>{children}</SocketProvider>
+          <ContextProvider>
+            <SocketProvider>{children}</SocketProvider>
+          </ContextProvider>
         </ReactQueryProvider>
       </body>
     </html>
