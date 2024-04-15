@@ -5,8 +5,15 @@ import { api } from "@/config/axios";
 import { useQuery } from "@tanstack/react-query";
 import Loader from "../loader/Loader";
 import { UserAvatar } from "../avatar/UserAvatar";
+import { ChatWelcome } from "./ChatWelcome";
 
-const ChatItem = ({ chatId, senderId }: { chatId: string; senderId: string }) => {
+const ChatItem = ({
+  chatId,
+  senderId,
+}: {
+  chatId: string;
+  senderId: string;
+}) => {
   const { socket } = useSocket();
   const [messages, setMessages] = useState<any[]>([]);
   const ref = useRef<HTMLDivElement>(null);
@@ -48,6 +55,8 @@ const ChatItem = ({ chatId, senderId }: { chatId: string; senderId: string }) =>
   }
   return (
     <>
+      <ChatWelcome type="one-to-one" />
+
       {!isLoading && messages ? (
         messages?.map((message: any) => (
           <div
